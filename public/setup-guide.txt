@@ -1,0 +1,46 @@
+LUFFY SOLUTIONS BOT — INSTALAÇÃO
+
+BAILEYS NÃO OFICIAL
+Baileys não representa a API oficial da Meta. A utilização pode violar os termos do WhatsApp e provocar restrições ou bloqueio da conta. Não enviar spam. Obter consentimento dos destinatários. Considere a API oficial para utilização comercial crítica.
+
+SERVIÇO EXTERNO
+A Lovable hospeda o painel; Baileys exige um processo Node permanente. Os ficheiros estão em bot-service/ no código do projeto. Exporte o código para executar num servidor ou Termux.
+
+1. Crie a conta no painel e confirme o email.
+2. Em Lovable, More > Users, obtenha o ID da conta administrativa.
+3. Configure bot-service/.env a partir de .env.example:
+   ADMIN_USER_ID: ID exato da conta autorizada (não um email).
+   AUTH_URL e AUTH_PUBLISHABLE_KEY: configuração pública de autenticação da aplicação, disponível no código gerado. Não usar credenciais privilegiadas.
+   APP_ORIGIN: URL publicada do painel, sem barra final.
+4. No servidor: cd bot-service && npm install && npm start
+5. Exponha o serviço por HTTPS com proxy reverso.
+6. No painel, Configurações, guarde o endereço HTTPS do serviço.
+7. Inicie sessão e gere o QR Code ou código de pareamento real.
+
+PERSISTÊNCIA
+Configure DATA_DIR e SESSION_DIR num volume persistente; não use o disco temporário de um alojamento. Não partilhe nem publique session/ ou data/. Faça cópias de segurança protegidas. Sessões têm permissões restritas. Logout invalida a associação. Falhas transitórias reconectam uma sessão anteriormente ligada.
+Histórico limitado aos 100 registos recentes no painel. Mensagens de grupos são ignoradas. Mensagens repetidas são deduplicadas por ID. Um envio com resultado ambíguo não é repetido automaticamente; consulte o histórico antes de agir.
+
+TERMUX
+Instale Termux a partir de fonte mantida (F-Droid). Execute:
+pkg update && pkg upgrade
+pkg install nodejs-lts git python make clang
+cd bot-service
+sh install-termux.sh
+npm start
+Mantenha dados no armazenamento privado do Termux. Execute termux-wake-lock e desative otimizações de bateria; isto não garante disponibilidade permanente. HTTPS e acesso de rede ao telefone precisam de configuração adicional.
+
+RENDER / VPS
+Diretório raiz: bot-service
+Instalação: npm install
+Início: npm start
+Verificação: /health
+Volume persistente necessário; DATA_DIR e SESSION_DIR devem apontar para esse volume. Configure as variáveis acima. Serviços sem disco persistente perdem a sessão ao reiniciar.
+
+ANDROID / APK
+O invólucro Android encontra-se em android-shell/. Necessita de Node, Android Studio, SDK Android e JDK no computador.
+cd android-shell
+npm install
+APP_URL=https://URL-PUBLICADA-DO-PAINEL npm run android
+Abra o projeto no Android Studio e use Build > Generate Signed Bundle / APK.
+APP_URL deve ser a URL real publicada, HTTPS. O APK abre o painel remoto e exige internet. O serviço Baileys continua no servidor ou Termux, nunca dentro do APK. Login social dentro de WebView depende do suporte do fornecedor; prefira email/password no APK. A geração e assinatura do APK não foram executadas na Lovable.

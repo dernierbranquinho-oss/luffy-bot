@@ -1,0 +1,3 @@
+import {createFileRoute} from '@tanstack/react-router';
+import {Dashboard} from '@/components/luffy/dashboard';
+export const Route=createFileRoute('/pacotes')({head:()=>({meta:[{title:'Tabelas e pacotes | LUFFY SOLUTIONS BOT'},{name:'description',content:'Tabelas e pacotes do LUFFY SOLUTIONS BOT.'},{property:'og:title',content:'Tabelas e pacotes | LUFFY SOLUTIONS BOT'},{property:'og:description',content:'Gerencie tabelas e pacotes do seu bot WhatsApp.'},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]}),component:()=> <Dashboard section="Tabelas e pacotes"/>});
