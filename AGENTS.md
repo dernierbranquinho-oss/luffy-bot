@@ -28,3 +28,6 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+- Keep the persistent Node/Baileys service in `bot-service/`, outside the hosted app import graph, because WhatsApp sockets and SQLite need a permanent Node runtime.
+- Normalize service URLs with the shared browser-safe validator on both save and request; requests must use the saved address, not a draft being edited.
